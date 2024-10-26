@@ -40,12 +40,15 @@ test.describe('DemoQA User Flow', () => {
     await page.screenshot({ path: `evidences/02-login-successful.png` });
     
     await profilePage.clickOnDeleteUser()
+    await page.screenshot({ path: `evidences/03-delete-user-request.png` });
     await profilePage.clickOnConfirmationButton()
+    await page.screenshot({ path: `evidences/04-delete-user-confirmation.png` });
     
     await loginPage.login(userCredentials);
     await loginPage.clickOnLoginButton();
-
+    
     const isLoginErrorVisible= await loginPage.isLoginErrorVisible();
+    await page.screenshot({ path: `evidences/05-set-invalid-credentials.png` });
     expect(isLoginErrorVisible).toBeTruthy();
   });
 });
