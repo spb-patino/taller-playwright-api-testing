@@ -8,11 +8,16 @@ export class LoginPage {
   readonly passwordTextInput: Locator;
   readonly loginButton: Locator;
 
+  private readonly INVALID_CREDENTIALS_MESSAGE_SELECTOR = "text=Invalid username or password!";
+  private readonly USERNAME_SELECTOR = "UserName";
+  private readonly PASSWORD_SELECTOR = "Password";
+  private readonly LOGIN_BUTTON_SELECTOR = "#login";
+
   constructor(page: Page) {
     this.page = page;
-    this.usernameTextInput = page.getByPlaceholder("UserName");
-    this.passwordTextInput = page.getByPlaceholder("Password");
-    this.loginButton = page.locator("#login");
+    this.usernameTextInput = page.getByPlaceholder(this.USERNAME_SELECTOR);
+    this.passwordTextInput = page.getByPlaceholder(this.PASSWORD_SELECTOR);
+    this.loginButton = page.locator(this.LOGIN_BUTTON_SELECTOR);
   }
 
   openWebPage = async (): Promise<void> => {
@@ -29,6 +34,7 @@ export class LoginPage {
   };
 
   isLoginErrorVisible = async (): Promise<boolean> => {
-    return await this.page.isVisible("text=Invalid username or password!");
+    await this.page.waitForSelector(this.INVALID_CREDENTIALS_MESSAGE_SELECTOR);
+    return await this.page.isVisible(this.INVALID_CREDENTIALS_MESSAGE_SELECTOR);
   };
 }

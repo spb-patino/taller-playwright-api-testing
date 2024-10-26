@@ -10,7 +10,6 @@ import { ProfilePage } from '../pages/profile.page';
 import { LoginPage } from '../pages/login.page';
 
 const BASE_URL = 'https://demoqa.com';
-const userIdProperty= 'userID';
 
 let userCredentials: UserCredentials;
 
@@ -21,11 +20,9 @@ test.describe('DemoQA User Flow', () => {
     const newUser = await createUser(request, userData, BASE_URL);
     expect(newUser.response.ok()).toBeTruthy();
 
-    const responseBody = await newUser.response.json();
     userCredentials = {
       username: newUser?.user?.userName,
       password: newUser?.user?.password,
-      userID: responseBody.userID
     };
   });
 
@@ -41,12 +38,12 @@ test.describe('DemoQA User Flow', () => {
     await page.screenshot({ path: `evidences/01-use-credentials.png` });
     await loginPage.clickOnLoginButton();
     await page.screenshot({ path: `evidences/02-login-successful.png` });
-
+    
     await profilePage.clickOnDeleteUser()
     await profilePage.clickOnConfirmationButton()
-    await profilePage.clickOnNotificationAlert()
-
+    
     await loginPage.login(userCredentials);
+    await loginPage.clickOnLoginButton();
 
     const isLoginErrorVisible= await loginPage.isLoginErrorVisible();
     expect(isLoginErrorVisible).toBeTruthy();
