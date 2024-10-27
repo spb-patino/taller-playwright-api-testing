@@ -64,7 +64,6 @@ Luego en el caso de prueba, se ejecuta:
   </div>
 </div>
 
-
 ### Instalación y ejecución de la prueba
 
 Para ejecutar el caso de prueba, realiza los siguientes pasos:
@@ -86,13 +85,32 @@ Para ejecutar el caso de prueba, realiza los siguientes pasos:
 
    Cada ejecución regenera las imágenes de evidencia en la carpeta `./evidences`
 
-## Reto planteado 2 (Carpeta Challenge2 en el repositorio)
-
-Pendiente
-
-## Requisitos
+### Requisitos
 
 - Node.js (versión 16 o superior)
+
+## Reto planteado 2 (Carpeta Challenge2 en el repositorio)
+
+El propósito de este proyecto es utilizar las capacidades de Postman, especialmente de API Testing, para realizar la ejecución de pruebas a diferentes endpoints del API pública de la Nasa. El reto es utilizar las secciones de Pre-Request y Post-Response para los scripts de test y realizar diferentes *assertions* sobre el desempeño del API o contenido de la respuesta que retorna el request. Para ejecutar los llamados al API de la NASA fue necesario solicitar un API_KEY, aunque no todos los endpoints lo requirieron. El API_KEY del API de NASA se solicitó en el [NASA API Portal](https://api.nasa.gov/)
+
+### Estructura del proyecto
+
+- *Colección de Postman con las pruebas realizadas*:
+  - [nasa_api.postman_collection.json](challenge2/nasa_api.postman_collection.json)
+- *Código de los scripts en Postman para fácil revisión*:
+  - [01-apodAstronomyPictureOfTheDay.js](challenge2/code/01-apodAstronomyPictureOfTheDay.js) 
+  - [02-marsRoverPhotos.js](challenge2/code/02-marsRoverPhotos.js) 
+  - [03-nearEarthObjectsFeed.js](challenge2/code/03-nearEarthObjectsFeed.js) 
+  - [04-openScienceDataRepositoryMissionsSpaceX12.js](challenge2/code/04-openScienceDataRepositoryMissionsSpaceX12.js) 
+
+### Presentación de evidencias de ejecución exitosa
+
+<div style="display: flex; justify-content: space-between; margin-bottom:2em">
+  <div style="flex: 1; margin-right: 10px;">
+    <p>Ejecución del runner completo con las pruebas</b></p>
+    <img src="challenge2/evidences/postman-api-test-results.png">
+  </div>
+</div>
 
 ## Autores
 
