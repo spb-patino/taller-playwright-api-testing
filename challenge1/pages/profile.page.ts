@@ -10,7 +10,7 @@ export class ProfilePage {
 
     private readonly PROFILE_HEADER_SELECTOR = '.profile-header';
     private readonly DELETE_RECORD_SELECTOR  = 'Delete Account';
-    private readonly CONFIRM_DELETE_SELECTOR   = 'OK';
+    private readonly CONFIRM_DELETE_SELECTOR = 'OK';
 
     constructor(page:Page) {
       this.page = page;
