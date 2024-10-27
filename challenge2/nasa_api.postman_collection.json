@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "6c4df1cf-7a9c-463b-bcaf-9449dd18645e",
+		"_postman_id": "0ba81d72-c26a-4610-9230-2c850fe02f1e",
 		"name": "NASA API Collection",
 		"description": "Colección de pruebas para APIs de NASA, incluyendo APOD y Mars Rover Photos.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "3417774"
+		"_exporter_id": "1069907"
 	},
 	"item": [
 		{
@@ -249,6 +249,70 @@
 							"key": "api_key",
 							"value": "{{API_KEY}}"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Open Science Data Repository - Missions - SpaceX-12",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 1500ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1500);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"identifier is SpaceX-12\", () => {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response).to.have.property('identifier', 'SpaceX-12');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Project SpaceX-12 has at least one Principal Investigator inside the people array\", () => {\r",
+							"    const people = pm.response.json().people;\r",
+							"    const hasPrincipalInvestigator = people.some(person => person.roles.includes('Principal Investigator'));\r",
+							"    pm.expect(hasPrincipalInvestigator).to.be.true;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://osdr.nasa.gov/geode-py/ws/api/mission/SpaceX-12",
+					"protocol": "https",
+					"host": [
+						"osdr",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"geode-py",
+						"ws",
+						"api",
+						"mission",
+						"SpaceX-12"
 					]
 				}
 			},
