@@ -1,0 +1,265 @@
+{
+	"info": {
+		"_postman_id": "6c4df1cf-7a9c-463b-bcaf-9449dd18645e",
+		"name": "NASA API Collection",
+		"description": "Colección de pruebas para APIs de NASA, incluyendo APOD y Mars Rover Photos.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3417774"
+	},
+	"item": [
+		{
+			"name": "APOD (Astronomy Picture of the Day)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const today = new Date();",
+							"today.setDate(today.getDate() - 1);",
+							"const yesterday = today.toISOString().split('T')[0];",
+							"pm.environment.set(\"yesterday\", yesterday);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"",
+							"pm.test(\"Response has image or video URL\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"url\");",
+							"    pm.expect(jsonData.url).to.match(/https:\\/\\/.+\\.(jpg|png|gif|mp4)/);",
+							"});",
+							"",
+							"pm.test(\"Title and explanation are present\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"title\");",
+							"    pm.expect(jsonData).to.have.property(\"explanation\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.nasa.gov/planetary/apod?api_key={{API_KEY}}&date={{yesterday}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"planetary",
+						"apod"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "{{API_KEY}}"
+						},
+						{
+							"key": "date",
+							"value": "{{yesterday}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mars Rover Photos",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const randomSol = Math.floor(Math.random() * (2000 - 1000 + 1)) + 1000;",
+							"pm.environment.set(\"randomSol\", randomSol);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 5000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(5000);",
+							"});",
+							"",
+							"pm.test(\"Response has photos\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.photos.length).to.be.above(0);",
+							"});",
+							"",
+							"pm.test(\"Each photo has required fields\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    jsonData.photos.forEach(photo => {",
+							"        pm.expect(photo).to.have.property(\"img_src\");",
+							"        pm.expect(photo).to.have.property(\"earth_date\");",
+							"        pm.expect(photo).to.have.property(\"rover\");",
+							"        pm.expect(photo.rover).to.have.property(\"name\");",
+							"    });",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key={{API_KEY}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"mars-photos",
+						"api",
+						"v1",
+						"rovers",
+						"curiosity",
+						"photos"
+					],
+					"query": [
+						{
+							"key": "sol",
+							"value": "1000"
+						},
+						{
+							"key": "api_key",
+							"value": "{{API_KEY}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Near Earth Objects - Feed",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const today = new Date();",
+							"const endDate = today.toISOString().split('T')[0];",
+							"const startDate = new Date(today);",
+							"startDate.setDate(today.getDate() - 7);",
+							"const formattedStartDate = startDate.toISOString().split('T')[0];",
+							"",
+							"pm.environment.set(\"start_date\", formattedStartDate);",
+							"pm.environment.set(\"end_date\", endDate);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"",
+							"pm.test(\"Response has near_earth_objects data\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"near_earth_objects\");",
+							"    pm.expect(Object.keys(jsonData.near_earth_objects).length).to.be.above(0);",
+							"});",
+							"",
+							"pm.test(\"Each NEO has required fields\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    const neoData = Object.values(jsonData.near_earth_objects).flat();",
+							"    neoData.forEach(neo => {",
+							"        pm.expect(neo).to.have.property(\"name\");",
+							"        pm.expect(neo).to.have.property(\"id\");",
+							"        pm.expect(neo).to.have.property(\"close_approach_data\");",
+							"        pm.expect(neo.close_approach_data.length).to.be.above(0);",
+							"    });",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.nasa.gov/neo/rest/v1/feed?start_date={{start_date}}&end_date={{end_date}}&api_key={{API_KEY}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"neo",
+						"rest",
+						"v1",
+						"feed"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "{{start_date}}"
+						},
+						{
+							"key": "end_date",
+							"value": "{{end_date}}"
+						},
+						{
+							"key": "api_key",
+							"value": "{{API_KEY}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "API_KEY",
+			"value": "89bc0ce6-a1a8-469d-84de-219195b42b34",
+			"type": "string"
+		}
+	]
+}
