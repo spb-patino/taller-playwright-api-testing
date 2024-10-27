@@ -9,18 +9,18 @@ El propósito de este proyecto es utilizar las capacidades de Playwright para au
 ### Estructura del proyecto
 
 - *Configuración de Playwright*:
-  - [playwright.config.ts](playwright.config.ts)
+  - [playwright.config.ts](challenge1/playwright.config.ts)
 - *Datos del equipo a conformar*:
-  - [test.data.ts](data/test-data.ts) 
+  - [test.data.ts](challenge1/data/test-data.ts) 
 - *Tipado de la datos*:
-  - [types/user-credentials.type.ts](types/user-credentials.type.ts)
+  - [types/user-credentials.type.ts](challenge1/types/user-credentials.type.ts)
 - *Consumo de API, para la generación de la cuenta de usuario aleatoria*:
-  - [api/create-user.request.ts](api/create-user.request.ts)
+  - [api/create-user.request.ts](challenge1/api/create-user.request.ts)
 - *Páginas, en conformidad con el patrón POM*:
-  - [pages/login.page.ts](pages/login.page.ts)
-  - [pages/profile.page.ts](pages/profile.page.ts)
+  - [pages/login.page.ts](challenge1/pages/login.page.ts)
+  - [pages/profile.page.ts](challenge1/pages/profile.page.ts)
 - *Especificación del caso de pruebas - Crear un equipo*:
-  - [tests/create-user.spec.ts](tests/create-user.spec.ts)
+  - [tests/create-user.spec.ts](challenge1/tests/create-user.spec.ts)
 
 ### Orden de la ejecución del caso de prueba
 
