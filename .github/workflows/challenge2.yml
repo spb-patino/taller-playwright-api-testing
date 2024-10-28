@@ -1,0 +1,43 @@
+name: Run Postman Collection Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  postman-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Newman
+        run: |
+          npm install -g newman
+          npm install -g newman-reporter-html
+
+      - name: Run Postman Collection
+        env:
+          API_KEY: ${{ secrets.NASA_API_KEY }}
+        run: |
+          newman run challenge2/nasa_api.postman_collection.json \
+          --env-var "API_KEY=$API_KEY" \
+          --reporters cli,html \
+          --reporter-html-export newman-report.html
+
+      - name: Upload Newman HTML Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-report
+          path: newman-report.html
