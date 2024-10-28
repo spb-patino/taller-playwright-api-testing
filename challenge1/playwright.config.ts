@@ -9,7 +9,7 @@ export default defineConfig({
   reporter: 'html',
   
   use: {
-    headless: false,
+    headless: !!process.env.CI,
     trace: 'on-first-retry',
   },
 
